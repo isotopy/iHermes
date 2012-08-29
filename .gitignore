@@ -5,3 +5,13 @@ build
 *.xcodeproj/xcuserdata
 *.xcodeproj/*.xcworkspace
 Hermes.dmg
+
+iHermes/iHermes.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+
+*.xcuserstate
+
+*.xcbkptlist
+
+*.xcscheme
+
+iHermes/iHermes.xcodeproj/xcuserdata/susan.xcuserdatad/xcschemes/xcschememanagement.plist
