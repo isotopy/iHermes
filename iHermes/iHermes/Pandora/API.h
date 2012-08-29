@@ -1,48 +1,38 @@
-#include <libxml/parser.h>
+#define PANDORA_API_HOST @"tuner.pandora.com"
+#define PANDORA_API_PATH @"/services/json/"
+#define PANDORA_API_VERSION @"5"
 
-#pragma once
+typedef void(^PandoraCallback)(NSDictionary*);
 
-#define PANDORA_API_HOST @"www.pandora.com"
-#define PANDORA_API_PATH @"/radio/xmlrpc/"
-#define PANDORA_API_VERSION @"v33"
+@class SBJsonParser;
+@class SBJsonWriter;
 
-typedef void(^PandoraCallback)(xmlDocPtr);
+@interface PandoraRequest : NSObject
 
-@interface PandoraRequest : NSObject {
-  @private
-  NSString *requestData;
-  NSString *requestMethod;
-  NSMutableData *responseData;
-  PandoraCallback callback;
-  BOOL secure;
-}
+/* URL parameters */
+@property NSString *method;
+@property NSString *authToken;
+@property NSString *partnerId;
+@property NSString *userId;
 
-@property (retain) NSString *requestData;
-@property (retain) NSString *requestMethod;
-@property (retain) NSMutableData *responseData;
+/* JSON data */
+@property NSMutableDictionary *request;
+@property NSMutableData *response;
+
+/* Internal metadata */
 @property (copy) PandoraCallback callback;
-@property (retain) NSObject *info;
-@property (readwrite) BOOL secure;
+@property BOOL tls;
+@property BOOL encrypted;
 
-+ (PandoraRequest*) requestWithMethod: (NSString*) requestMethod
-                                 data: (NSString*) data
-                             callback: (PandoraCallback) callback;
-
-- (void) resetResponse;
-- (void) replaceAuthToken:(NSString*) token with:(NSString*) replacement;
 @end
 
-BOOL xpathNodes(xmlDocPtr doc, char* xpath, void (^callback)(xmlNodePtr));
-NSString *xpathRelative(xmlDocPtr doc, char* xpath, xmlNodePtr node);
-
 @interface API : NSObject {
-  NSString *listenerID;
-
-  NSMutableDictionary *activeRequests;
   int64_t syncOffset;
-}
 
-@property (retain) NSString* listenerID;
+  /* JSON parsing */
+  SBJsonParser *json_parser;
+  SBJsonWriter *json_writer;
+}
 
 - (int64_t) time;
 - (BOOL) sendRequest: (PandoraRequest*) request;

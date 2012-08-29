@@ -7,20 +7,108 @@
  * which could probably use some polishing...
  */
 
+#import <SBJson/SBJson.h>
+
 #import "Keychain.h"
 #import "Scrobbler.h"
-#import "Station.h"
-#import "SBJson.h"
+#import "Pandora/Station.h"
 
 #define LASTFM_KEYCHAIN_ITEM @"hermes-lastfm-sk"
 
-/* Singleton instance of the Scrobbler class used globally */
-static Scrobbler *subscriber = nil;
-static FMCallback errorChecker;
-
 @implementation Scrobbler
 
-@synthesize engine, authToken, sessionToken;
+/**
+ * @brief Creates a global instance of a Scrobbler, if necessary
+ *
+ * Also begins fetching of session keys for the last.fm API
+ */
+- (id) init {
+  if (!(self = [super init])) { return self; }
+
+  engine = [[FMEngine alloc] init];
+  parser = [[SBJsonParser alloc] init];
+  sessionToken = KeychainGetPassword(LASTFM_KEYCHAIN_ITEM);
+  if ([@"" isEqualToString:sessionToken]) {
+    sessionToken = nil;
+  }
+
+  [[NSNotificationCenter defaultCenter]
+    addObserver:self
+       selector:@selector(songPlayed:)
+           name:@"song.playing"
+         object:nil];
+  [[NSNotificationCenter defaultCenter]
+    addObserver:self
+       selector:@selector(songRated:)
+           name:@"hermes.song-rated"
+         object:nil];
+  return self;
+}
+
+- (void) dealloc {
+  if (timer != nil && [timer isValid]) {
+    [timer invalidate];
+  }
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+typedef void(^ScrobblerCallback)(NSDictionary*);
+
+/**
+ * @brief Generates a callback for the FMEngine to handle errors
+ *
+ * @param callback the callback to be invoked with the parsed JSON object if
+ *        the JSON was received without error and parsed without error
+ * @param handles if YES, then the callback will always be invoked with valid
+ *        JSON, otherwise if the json contains a last.fm error, the error will
+ *        be handled here and the callback will not be invoked.
+ */
+- (FMCallback) errorChecker:(ScrobblerCallback)callback
+              handlesErrors:(BOOL) handles {
+  return ^(NSData *data, NSError *error) {
+    /* If this is a network error, then this doesn't need to result in an
+     * annoying popup dialog saying so. This entire app depends on the network
+     * so everyone will know soon enough that the network is down */
+    if (error != nil) {
+      return;
+    }
+
+    NSString *s = [[NSString alloc] initWithData:data
+                                        encoding:NSUTF8StringEncoding];
+    NSDictionary *object = [parser objectWithString:s error:&error];
+
+    /* If this is a last.fm error, however, then this is a serious issue which
+     * may need to be addressed manually, so do display a dialog here */
+    if (error != nil) {
+      [self error:[error localizedDescription]];
+    } else if (!handles && object[@"error"] != nil) {
+      [self error:object[@"message"]];
+    } else {
+      callback(object);
+    }
+  };
+}
+
+/**
+ * @brief Callback for when a new songs plays (initializes scrobbling)
+ */
+- (void) songPlayed:(NSNotification*) not {
+  Station *station = [not object];
+  Song *playing = [station playing];
+  if (playing != nil) {
+    [self scrobble:playing state:NewSong];
+  }
+}
+
+/**
+ * @brief Callback for when a song is rated
+ */
+- (void) songRated:(NSNotification*) not {
+  Song *song = [not userInfo][@"song"];
+  if (song) {
+    [self setPreference:song loved:([[song nrating] intValue] == 1)];
+  }
+}
 
 /**
  * @brief Internal helper method to display an error message
@@ -38,106 +126,6 @@ static FMCallback errorChecker;
 }
 
 /**
- * @brief Creates a global instance of a Scrobbler, if necessary
- *
- * Also begins fetching of session keys for the last.fm API
- */
-+ (void) subscribe {
-  if (subscriber == nil) {
-    subscriber = [[Scrobbler alloc] init];
-    errorChecker = ^(NSData *data, NSError *error) {
-      if (error != nil) {
-        [subscriber error:[error localizedDescription]];
-        return;
-      }
-      SBJsonParser *parser = [[SBJsonParser alloc] init];
-      NSDictionary *object = [parser objectWithData:data];
-
-      if ([object objectForKey:@"error"] != nil) {
-        NSLogd(@"%@", object);
-        [subscriber error:[object objectForKey:@"message"]];
-      }
-    };
-
-    [[NSNotificationCenter defaultCenter]
-      addObserver:self
-         selector:@selector(songPlayed:)
-             name:@"song.playing"
-           object:nil];
-  }
-}
-
-/**
- * @brief Deallocates the Scrobble singleton, cancelling all further
- *        API calls.
- */
-+ (void) unsubscribe {
-  subscriber = nil;
-  errorChecker = nil;
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-/**
- * @brief Helper method to send the method to the singleton.
- *
- * No action is performed if the singleton is nil
- */
-+ (void) scrobble:(Song *)song state:(ScrobbleState)status {
-  if (subscriber != nil) {
-    [subscriber scrobble:song state:status];
-  }
-}
-
-/**
- * @brief Helper used to listen to notifications about new songs
- */
-+ (void) songPlayed:(NSNotification*) notification {
-  Station *station = [notification object];
-  Song *playing = [station playing];
-  if (playing != nil && subscriber != nil) {
-    [subscriber scrobble:playing state:NewSong];
-  }
-}
-
-/**
- * @brief Helper method to send the method to the singleton.
- *
- * No action is performed if the singleton is nil
- */
-+ (void) setPreference: (Song*)song loved:(BOOL)loved {
-  if (subscriber != nil) {
-    [subscriber setPreference:song loved:loved];
-  }
-}
-
-/**
- * @brief Initializes the Scrobbler instance, fetching the saved session token
- */
-- (id) init {
-  if ((self = [super init])) {
-    [self setEngine:[[FMEngine alloc] init]];
-
-    /* Try to get the saved session token, otherwise get a new one */
-    NSString *str = KeychainGetPassword(LASTFM_KEYCHAIN_ITEM);
-    if (str == nil || [@"" isEqual:str]) {
-      NSLogd(@"No saved sesssion token for last.fm, fetching another");
-      [self fetchAuthToken];
-    } else {
-      NSLogd(@"Found saved sessionn token found for last.fm");
-      [self setSessionToken:str];
-    }
-  }
-
-  return self;
-}
-
-- (void) dealloc {
-  if (timer != nil && [timer isValid]) {
-    [timer invalidate];
-  }
-}
-
-/**
  * @brief Scrobbles a song to last.fm
  *
  * This can be used for any ScrobbleState, but should only be sent at the
@@ -150,28 +138,26 @@ static FMCallback errorChecker;
  * @param status the playback state of the song
  */
 - (void) scrobble:(Song *)song state:(ScrobbleState)status {
-  /* If we don't have a sesion token yet, just ignore this for now */
-  if (sessionToken == nil || [@"" isEqual:sessionToken] || song == nil) {
+  if (!PREF_KEY_BOOL(PLEASE_SCROBBLE) ||
+      (PREF_KEY_BOOL(ONLY_SCROBBLE_LIKED) && [[song nrating] intValue] != 1)) {
     return;
   }
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  if ([defaults boolForKey:ONLY_SCROBBLE_LIKED] &&
-      ![[song rating] isEqualToString:@"1"]) {
+  if (sessionToken == nil) {
+    [self fetchSessionToken];
+    /* just lose this scrobble, it's not mission critical anyway */
     return;
   }
 
   NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+  dictionary[@"sk"] = sessionToken;
+  dictionary[@"api_key"] = _LASTFM_API_KEY_;
+  dictionary[@"track"] = [song title];
+  dictionary[@"artist"] = [song artist];
+  dictionary[@"album"] = [song album];
+  dictionary[@"chosenByUser"] = @"0";
 
-  [dictionary setObject:sessionToken      forKey:@"sk"];
-  [dictionary setObject:_LASTFM_API_KEY_  forKey:@"api_key"];
-  [dictionary setObject:[song title]      forKey:@"track"];
-  [dictionary setObject:[song artist]     forKey:@"artist"];
-  [dictionary setObject:[song album]      forKey:@"album"];
-  [dictionary setObject:[song musicId]    forKey:@"mbid"];
-  [dictionary setObject:@"0"              forKey:@"chosenByUser"];
-
-  NSNumber *time = [NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]];
-  [dictionary setObject:time forKey:@"timestamp"];
+  NSNumber *time = @((UInt64) [[NSDate date] timeIntervalSince1970]);
+  dictionary[@"timestamp"] = time;
 
   /* Relevant API documentation at
    *  - http://www.last.fm/api/show/track.scrobble
@@ -180,7 +166,8 @@ static FMCallback errorChecker;
   NSString *method = status == FinalStatus ? @"track.scrobble"
                                            : @"track.updateNowPlaying";
   [engine performMethod:method
-           withCallback:errorChecker
+           withCallback:[self errorChecker:^(NSDictionary *_){}
+                             handlesErrors:NO]
          withParameters:dictionary
            useSignature:YES
              httpMethod:@"POST"];
@@ -193,26 +180,26 @@ static FMCallback errorChecker;
  * @param loved whether the song should be 'loved' or 'unloved'
  */
 - (void) setPreference: (Song*)song loved:(BOOL)loved {
-  /* If we don't have a sesion token yet, just ignore this for now */
-  if (sessionToken == nil || [@"" isEqual:sessionToken] || song == nil) {
+  if (!PREF_KEY_BOOL(PLEASE_SCROBBLE) || !PREF_KEY_BOOL(PLEASE_SCROBBLE_LIKES)){
     return;
   }
-  
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  if (![defaults boolForKey:PLEASE_SCROBBLE_LIKES]) {
+  if (sessionToken == nil) {
+    /* As above, it's "OK" if we drop this and just fetch a token for now */
+    [self fetchSessionToken];
     return;
   }
 
   NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
-  [dictionary setObject:sessionToken      forKey:@"sk"];
-  [dictionary setObject:_LASTFM_API_KEY_  forKey:@"api_key"];
-  [dictionary setObject:[song title]      forKey:@"track"];
-  [dictionary setObject:[song artist]     forKey:@"artist"];
+  dictionary[@"sk"] = sessionToken;
+  dictionary[@"api_key"] = _LASTFM_API_KEY_;
+  dictionary[@"track"] = [song title];
+  dictionary[@"artist"] = [song artist];
 
   /* Relevant API documentation at http://www.last.fm/api/show/track.love */
   [engine performMethod:(loved ? @"track.love" : @"track.unlove")
-           withCallback:errorChecker
+           withCallback:[self errorChecker:^(NSDictionary *_){}
+                             handlesErrors:NO]
          withParameters:dictionary
            useSignature:YES
              httpMethod:@"POST"];
@@ -271,22 +258,14 @@ static FMCallback errorChecker;
  */
 - (void) fetchAuthToken {
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-  [dict setObject:_LASTFM_API_KEY_ forKey:@"api_key"];
+  dict[@"api_key"] = _LASTFM_API_KEY_;
 
   /* More info at http://www.last.fm/api/show/auth.getToken */
-  FMCallback cb = ^(NSData *data, NSError *error) {
-    if (error != nil) {
-      [self error:[error localizedDescription]];
-      return;
-    }
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-
-    NSDictionary *object = [parser objectWithData:data];
-
-    [self setAuthToken:[object objectForKey:@"token"]];
+  ScrobblerCallback cb = ^(NSDictionary *object) {
+    authToken = object[@"token"];
 
     if (authToken == nil || [@"" isEqual:authToken]) {
-      [self setAuthToken:nil];
+      authToken = nil;
       [self error:@"Couldn't get an auth token from last.fm!"];
     } else {
       [self fetchSessionToken];
@@ -294,7 +273,7 @@ static FMCallback errorChecker;
   };
 
   [engine performMethod:@"auth.getToken"
-           withCallback:cb
+           withCallback:[self errorChecker:cb handlesErrors:NO]
          withParameters:dict
            useSignature:YES
              httpMethod:@"GET"];
@@ -308,41 +287,40 @@ static FMCallback errorChecker;
  * authorization token.
  */
 - (void) fetchSessionToken {
+  /* If we don't have an auth token, then fetch one and it will fetch a session
+     token on succes */
+  if (authToken == nil) {
+    [self fetchAuthToken];
+    return;
+  }
   NSLogd(@"Fetching session token for last.fm...");
   NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-  [dict setObject:_LASTFM_API_KEY_ forKey:@"api_key"];
-  [dict setObject:authToken forKey:@"token"];
+  dict[@"api_key"] = _LASTFM_API_KEY_;
+  dict[@"token"] = authToken;
 
   /* More info at http://www.last.fm/api/show/auth.getSession */
-  FMCallback cb = ^(NSData *data, NSError *error) {
-    if (error != nil) {
-      [self error:[error localizedDescription]];
-      return;
-    }
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    NSDictionary *object = [parser objectWithData:data];
-
-    if ([object objectForKey:@"error"] != nil) {
-      NSNumber *code = [object objectForKey:@"error"];
+  ScrobblerCallback cb = ^(NSDictionary *object) {
+    if (object[@"error"] != nil) {
+      NSNumber *code = object[@"error"];
 
       if ([code intValue] == 14) {
         [self needAuthorization];
       } else {
-        [self error:[object objectForKey:@"message"]];
+        [self error:object[@"message"]];
       }
-      [self setSessionToken:nil];
+      sessionToken = nil;
       return;
     }
 
-    NSDictionary *session = [object objectForKey:@"session"];
-    [self setSessionToken:[session objectForKey:@"key"]];
+    NSDictionary *session = object[@"session"];
+    sessionToken = session[@"key"];
     if (!KeychainSetItem(LASTFM_KEYCHAIN_ITEM, sessionToken)) {
       [self error:@"Couldn't save session token to keychain!"];
     }
   };
 
   [engine performMethod:@"auth.getSession"
-           withCallback:cb
+           withCallback:[self errorChecker:cb handlesErrors:YES]
          withParameters:dict
            useSignature:YES
              httpMethod:@"GET"];

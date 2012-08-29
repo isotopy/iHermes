@@ -1,12 +1,125 @@
-# Version 1.0.22 (unreleased)
+# Version 1.1.11 (unreleased)
 
-[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.0.21...master)
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.10...v1.1.11)
+
+* [fixed] Resume in the middle of a song across application instances fixed
+
+# Version 1.1.10 (8/10/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.9...v1.1.10)
+
+* [added] Ability to sort stations list by name or date of creation
+* [added] Receive notifications through Growl or Mountain Lion's new
+          Notification Center
+* [fixed] Reduced memory retained over time
+
+# Version 1.1.9 (7/30/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.8...v1.1.9)
+
+* [fixed] Last.fm scrobbling time stamps are now correct again
+* [fixed] Fix a duplication of a UI item in preferences
+
+# Version 1.1.8 (7/30/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.7...v1.1.8)
+
+* [added] The internal timer to update the GUI is now paused when the
+          application is not visible
+* [added] Respect permissions on pandora stations for liking/disliking songs,
+          renaming stations, and adding seeds to stations
+* [added] Growl notifications now indicate whether a song is liked
+* [fixed] The tooltip on the station/history toolbar item now correctly reflects
+          the current state of the button
+
+# Version 1.1.7 (7/4/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.6...v1.1.7)
+
+* [added] New UI for viewing song history in a drawer instead of a popup
+* [added] Stations can now be created by genre as well as by seed
+* [added] Button in history view to view the lyrics of a song
+* [fixed] Disliking the current song in the history skips it and moves on
+
+# Version 1.1.6 (6/17/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.5...v1.1.6)
+
+* [added] Add an option to not proxy audio streams because it's not necessarily
+          required by Pandora. Thanks to @osener for the suggestion.
+* [fixed] Switching stations no longer plays two songs
+
+# Version 1.1.5 (6/16/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.4...v1.1.5)
+
+* [added] Proxy configuration for just the Hermes application. Be aware that
+          software updates will still go through the system proxy instead of the
+          Hermes-configured proxy
+* [added] If network connectivity is lost, and then regained, automatically
+          resume playback if playback was previously happening.
+* [fixed] Improve error handling in cases of intermittent network connectivity
+          by providing a way to maintain listening to the last song as soon as
+          the network connection is restored
+* [fixed] An assertion no longer trips when re-authenticating with Pandora
+* [misc ] massive internal cleanup across the code base
+
+# Version 1.1.4 (6/5/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.3...v1.1.4)
+
+* [added] Preferences for tweaking how software update works
+* [fixed] Toolbar items no longer randomly disable themselves
+* [fixed] Fix a bug fetching songs from pandora with bad formats specified
+
+# Version 1.1.3 (6/2/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.2...v1.1.3)
+
+* [added] When an error happens because the network is having trouble, there is
+          now a button to retry the last request
+* [fixed] Stations no longer randomly remove themselves when a new
+          authentication token is fetched
+
+# Version 1.1.2 (5/26/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.1...v1.1.2)
+
+* [added] Remember stations drawer width across application restarts
+* [added] Keyboard shortcut to edit a station (⇧+⌘+d)
+* [fixed] General UI tweaks for better quality and a better application
+* [fixed] When deletion of a seed fails, have a better notification
+* [fixed] Error handling (reauthentication and during authentication) working
+          again
+
+# Version 1.1.1 (5/20/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.1.0...v1.1.1)
+
+* [added] New UI for editing a station
+* [fixed] Fix an issue where non Pandora One users couldn't play more than four
+          songs without a crash happening, thanks to @viveksjain
+
+# Version 1.1.0 (5/18/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.0.22...v1.1.0)
+
+* [added] Move to using Pandora's JSON API instead of the XMLRPC one in hopes of
+          being more stable and requiring fewer updates
+* [added] After creating a station, immediately being playback of the station
+* [added] Preference option for high/medium/low quality audio
+* [fixed] Always make sure that toolbar items are enabled when a new song plays
+* [fixed] Ensure the station drawer opens when there's no saved station
+
+# Version 1.0.22 (4/27/12)
+
+[Full changelog](https://github.com/alexcrichton/hermes/compare/v1.0.21...v1.0.22)
 
 * [added] Preference option to not send liked tracks as 'loved' to last.fm,
           thanks to @tresni
+* [fixed] Updated to Pandora's v34 protocol
 * [fixed] `track.unlove` now properly sent to last.fm
 * [fixed] Fixed a memory leak with the dock menu opening/closing
-
 
 # Version 1.0.21 (3/22/11)
 

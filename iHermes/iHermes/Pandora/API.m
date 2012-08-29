@@ -1,250 +1,122 @@
-#import "API.h"
-#import "Crypt.h"
+/**
+ * @file Pandora/API.m
+ * @brief Implementation of the API with Pandora
+ *
+ * Currently this is an implementation of the JSON protocol version 5, as
+ * documented here: http://pan-do-ra-api.wikia.com/wiki/Json/5
+ */
 
-#include <libxml/xpath.h>
 #include <string.h>
+#import <SBJson/SBJson.h>
+
+#import "FMEngine/NSString+FMEngine.h"
+#import "Pandora/API.h"
+#import "Pandora/Crypt.h"
+#import "PreferencesController.h"
+#import "URLConnection.h"
 
 @implementation PandoraRequest
 
-@synthesize requestData, requestMethod, info, responseData, callback, secure;
+@synthesize callback, tls, authToken, userId, partnerId, response,
+            request, method, encrypted;
 
-+ (PandoraRequest*) requestWithMethod: (NSString*) method
-                                 data: (NSString*) data
-                             callback: (PandoraCallback) callback {
-  PandoraRequest *req = [[PandoraRequest alloc] init];
-  [req setCallback:[callback copy]];
-  [req setRequestData:data];
-  [req setRequestMethod:method];
-  [req resetResponse];
-  [req setSecure:TRUE];
-
-  return req;
-}
-
-- (void) resetResponse {
-  [self setResponseData:[NSMutableData dataWithCapacity:1024]];
-}
-
-- (void) replaceAuthToken:(NSString*)token with:(NSString*)replacement {
-  NSString *new_data = [requestData stringByReplacingOccurrencesOfString:token
-                                                              withString:replacement];
-  [self setRequestData:new_data];
+- (id) init {
+  if (!(self = [super init])) { return nil; }
+  authToken = partnerId = userId = @"";
+  response = [[NSMutableData alloc] init];
+  tls = encrypted = TRUE;
+  return self;
 }
 
 @end
 
-BOOL xpathNodes(xmlDocPtr doc, char* xpath, void (^callback)(xmlNodePtr)) {
-  BOOL success = NO;
-  xmlXPathContextPtr xpathCtx;
-  xmlXPathObjectPtr xpathObj;
-  
-  /* Create xpath evaluation context */
-  xpathCtx = xmlXPathNewContext(doc);
-  if (xpathCtx == NULL) {
-    return NO;
-  }
-  
-  /* Evaluate xpath expression */
-  xpathObj = xmlXPathEvalExpression((xmlChar *)xpath, xpathCtx);
-  if (xpathObj == NULL) {
-    goto doneContext;
-  }
-
-  xmlNodeSetPtr nodes = xpathObj->nodesetval;
-  if (!nodes) {
-    goto done;
-  }
-
-  for (NSInteger i = 0; i < nodes->nodeNr; i++) {
-    callback(nodes->nodeTab[i]);
-  }
-  
-done:
-  /* Cleanup */
-  xmlXPathFreeObject(xpathObj);
-doneContext:
-  xmlXPathFreeContext(xpathCtx);
-  return success;
-}
-
-NSString* xpathRelative(xmlDocPtr doc, char* xpath, xmlNodePtr node) {
-  NSString *result = nil;
-  xmlXPathContextPtr xpathCtx;
-  xmlXPathObjectPtr xpathObj;
-
-  /* Create xpath evaluation context */
-  xpathCtx = xmlXPathNewContext(doc);
-  if (xpathCtx == NULL) {
-    return nil;
-  }
-  xpathCtx->node = node;
-
-  /* Evaluate xpath expression */
-  xpathObj = xmlXPathEvalExpression((xmlChar *)xpath, xpathCtx);
-  if (xpathObj == NULL) {
-    xmlXPathFreeContext(xpathCtx);
-    return nil;
-  }
-
-  xmlNodeSetPtr nodes = xpathObj->nodesetval;
-  if (!nodes || nodes->nodeNr < 1) {
-    goto done;
-  }
-  xmlNodePtr child = nodes->nodeTab[0];
-  char *content;
-  if (child->children == NULL || child->children->content == NULL) {
-    content = "";
-  } else {
-    content = (char*) child->children->content;
-  }
-  result = [NSString stringWithCString:content
-                              encoding:NSUTF8StringEncoding];
-
-done:
-  /* Cleanup */
-  xmlXPathFreeObject(xpathObj);
-  xmlXPathFreeContext(xpathCtx);
-  return result;
-}
-
 @implementation API
 
-@synthesize listenerID;
-
 - (id) init {
-  activeRequests = [[NSMutableDictionary alloc] init];
-  return [super init];
+  if (!(self = [super init])) { return nil; }
+  json_parser = [[SBJsonParser alloc] init];
+  json_writer = [[SBJsonWriter alloc] init];
+  return self;
 }
 
 /**
  * Gets the current UNIX time
  */
 - (int64_t) time {
-  return [[NSDate date] timeIntervalSince1970] - syncOffset;
+  return [[NSDate date] timeIntervalSince1970];
 }
 
 /**
- * Sends a request to the server and parses the response as XML
+ * @brief Send a request to Pandora
+ *
+ * All requests are performed asynchronously, so the callback listed in the
+ * specified request will be invoked when the request completes.
+ *
+ * @param request the request to send. All information must be filled out
+ *        beforehand which is related to this request
+ * @return YES if the request went through, or NO otherwise.
  */
 - (BOOL) sendRequest: (PandoraRequest*) request {
-  NSString *method = [request requestMethod];
-  /* time with no offset */
-  int time = [[NSDate date] timeIntervalSince1970];
-  NSString *rid = [NSString stringWithFormat:@"%d", time % 10000000];
   NSString *url  = [NSString stringWithFormat:
-      @"http%s://" PANDORA_API_HOST PANDORA_API_PATH PANDORA_API_VERSION
-                    @"?rid=%@P&method=%@", [request secure] ? "s" : "", rid, method];
-
-  if (![method isEqual: @"sync"] && ![method isEqual: @"authenticateListener"]) {
-    NSString *lid = [NSString stringWithFormat:@"&lid=%@", listenerID];
-    url = [url stringByAppendingString:lid];
-  }
+      @"http%s://" PANDORA_API_HOST PANDORA_API_PATH
+        @"?method=%@&partner_id=%@&auth_token=%@&user_id=%@",
+      [request tls] ? "s" : "",
+      [request method], [request partnerId],
+      [[request authToken] urlEncoded], [request userId]];
   NSLogd(@"%@", url);
 
   /* Prepare the request */
   NSURL *nsurl = [NSURL URLWithString:url];
   NSMutableURLRequest *nsrequest = [NSMutableURLRequest requestWithURL:nsurl];
-
   [nsrequest setHTTPMethod: @"POST"];
-  [nsrequest addValue: @"application/xml" forHTTPHeaderField: @"Content-Type"];
+  [nsrequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
   /* Create the body */
-  NSString *data = PandoraEncrypt([request requestData]);
-  [nsrequest setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
-  NSLogd(@"%@", data);
+  NSData *data = [json_writer dataWithObject: [request request]];
+  if ([request encrypted]) { data = PandoraEncrypt(data); }
+  [nsrequest setHTTPBody: data];
 
-  /* Fetch the response asynchronously */
-  NSURLConnection *conn = [[NSURLConnection alloc]
-    initWithRequest:nsrequest delegate:self];
+  /* Create the connection with necessary callback for when done */
+  URLConnection *c =
+      [URLConnection connectionForRequest:nsrequest
+                        completionHandler:^(NSData *d, NSError *e) {
+    /* Parse the JSON if we don't have an error */
+    NSDictionary *dict = nil;
+    if (e == nil) {
+      NSString *s = [[NSString alloc] initWithData:d
+                                          encoding:NSUTF8StringEncoding];
+      dict = [json_parser objectWithString:s error:&e];
+    }
+    /* If we still don't have an error, look at the JSON for an error */
+    NSString *err = e == nil ? nil : [e localizedDescription];
+    if (dict != nil && err == nil) {
+      NSString *stat = dict[@"stat"];
+      if ([stat isEqualToString:@"fail"]) {
+        err = dict[@"message"];
+      }
+    }
 
-  [activeRequests setObject:request
-    forKey:[NSNumber numberWithInteger: [conn hash]]];
+    /* If we don't have an error, then all we need to do is invoked the
+       specified callback, otherwise build the error dictionary. */
+    if (err == nil) {
+      assert(dict != nil);
+      [request callback](dict);
+      return;
+    }
 
-  return YES;
-}
-
-/* Helper method for getting the PandoraRequest for a connection */
-- (PandoraRequest*) dataForConnection: (NSURLConnection*)connection {
-  return [activeRequests objectForKey:
-      [NSNumber numberWithInteger:[connection hash]]];
-}
-
-/* Cleans up the specified connection with the parsed XML. This method will
-   check the document for errors (if the document exists. The error event
-   will be published through the default NSNotificationCenter, or the
-   callback for the connection will be invoked */
-- (void)cleanupConnection:(NSURLConnection *)connection : (xmlDocPtr)doc : (NSString*) fault {
-  PandoraRequest *request = [self dataForConnection:connection];
-
-  if (doc != NULL && fault == nil) {
-    fault = xpathRelative(doc, "//fault//member[name='faultString']/value", NULL);
-  }
-
-  if (doc == NULL || fault != nil) {
-    NSLogd(@"%p %@", doc, fault);
     NSMutableDictionary *info = [NSMutableDictionary dictionary];
-    if (fault == nil) {
-      fault = @"Connection error";
-    }
-    NSArray *parts = [fault componentsSeparatedByString:@"|"];
-    if ([parts count] >= 3) {
-      fault = [parts objectAtIndex:2];
-    }
-    NSLogd(@"Fault: %@", fault);
 
     [info setValue:request forKey:@"request"];
-    [info setValue:fault   forKey:@"error"];
+    [info setValue:err     forKey:@"error"];
+    if (dict != nil) {
+      [info setValue:dict[@"code"] forKey:@"code"];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"hermes.pandora-error"
                                                         object:self
                                                       userInfo:info];
-  } else {
-    /* Only invoke the callback if there's no faults */
-    [request callback](doc);
-  }
-
-  /* Always free these up */
-  [activeRequests removeObjectForKey:[NSNumber numberWithInteger: [connection hash]]];
-  if (doc != NULL) {
-    xmlFreeDoc(doc);
-  }
-}
-
-/* Collect the data received */
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-  PandoraRequest *request = [self dataForConnection:connection];
-  [[request responseData] appendData:data];
-}
-
-/* Immediately cleans up if we have a bad response */
-- (void)connection:(NSURLConnection *)connection
-    didReceiveResponse:(NSHTTPURLResponse *)response {
-  if ([response statusCode] < 200 || [response statusCode] >= 300) {
-    NSLogd(@"%ld", [response statusCode]);
-    [connection cancel];
-    [self cleanupConnection:connection : NULL : @"Didn't receive 2xx response"];
-  }
-}
-
-/* Immediately cleans up the connection with no XML document */
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-  [self cleanupConnection:connection : NULL : [error localizedDescription]];
-}
-
-/* Parses the XML received from the connection, then cleans up */
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-  PandoraRequest *request = [self dataForConnection:connection];
-#ifdef DEBUG
-  NSString *str = [[NSString alloc] initWithData:[request responseData]
-                                        encoding:NSASCIIStringEncoding];
-  NSLog(@"%@", str);
-#endif
-
-  xmlDocPtr doc = xmlReadMemory([[request responseData] bytes],
-                                [[request responseData] length],
-                                "",
-                                NULL,
-                                XML_PARSE_RECOVER);
-  [self cleanupConnection:connection : doc : nil];
+  }];
+  [c start];
+  return TRUE;
 }
 
 @end

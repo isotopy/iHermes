@@ -1,5 +1,7 @@
 #import "AuthController.h"
 #import "HermesAppDelegate.h"
+#import "PlaybackController.h"
+#import "StationsController.h"
 
 @implementation AuthController
 
@@ -46,8 +48,8 @@
   [spinner startAnimation: sender];
 
   [[[NSApp delegate] pandora] authenticate:[username stringValue]
-                                          :[password stringValue]
-                                          :nil];
+                                  password:[password stringValue]
+                                   request:nil];
   [login setEnabled:NO];
 }
 
