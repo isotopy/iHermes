@@ -10,7 +10,6 @@
 
 #import <CoreFoundation/CFRunLoop.h>
 
-#import "HermesAppDelegate.h"
 #import "NetworkConnection.h"
 
 @implementation NetworkConnection

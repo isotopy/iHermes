@@ -7,7 +7,7 @@
 //
 
 #import "ASPlaylist.h"
-
+#import "../NSObject+subscripts.h"
 NSString * const ASCreatedNewStream  = @"ASCreatedNewStream";
 NSString * const ASNewSongPlaying    = @"ASNewSongPlaying";
 NSString * const ASNoSongsLeft       = @"ASNoSongsLeft";

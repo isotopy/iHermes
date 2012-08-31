@@ -1,7 +1,7 @@
 #import "Song.h"
 #import "Station.h"
 #import "Crypt.h"
-#import "../NSObject+subscripts.h"
+#import "../Libraries/NSObject+subscripts.h"
 
 @implementation Song
 

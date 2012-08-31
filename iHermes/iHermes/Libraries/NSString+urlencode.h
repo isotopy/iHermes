@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+@interface NSString (urlencode)
 
-@interface NSString ()
+- (NSString *)urlencode;
 
-@end
+@end;
+

@@ -1,6 +1,8 @@
-#import "../AudioStreamer.h"
+#import "../Libraries/Audio/AudioStreamer.h"
 #import "Station.h"
-
+#import "Pandora.h"
+#import "Preferences.h"
+#import "../Libraries/NSObject+subscripts.h"
 @implementation Station
 
 @synthesize stationId, name, playing, token, shared, allowAddMusic, allowRename;

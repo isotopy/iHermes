@@ -7,12 +7,13 @@
  */
 
 #include <string.h>
-#import "../SBJson/SBJson.h"
-#import "../FMEngine/NSString+FMEngine.h"
+#import "../Libraries/SBJson/SBJson.h"
+#import "../Libraries/FMEngine/NSString+FMEngine.h"
 #import "API.h"
 #import "Crypt.h"
 #import "URLConnection.h"
-#import "../NSObject+subscripts.h"
+#import "../Libraries/NSObject+subscripts.h"
+#import "../Libraries/NSString+urlencode.h"
 @implementation PandoraRequest
 
 @synthesize callback, tls, authToken, userId, partnerId, response,
@@ -55,12 +56,13 @@
  * @return YES if the request went through, or NO otherwise.
  */
 - (BOOL) sendRequest: (PandoraRequest*) request {
+    
   NSString *url  = [NSString stringWithFormat:
       @"http%s://" PANDORA_API_HOST PANDORA_API_PATH
         @"?method=%@&partner_id=%@&auth_token=%@&user_id=%@",
       [request tls] ? "s" : "",
       [request method], [request partnerId],
-      [[request authToken] urlEncoded], [request userId]];
+      [[request authToken] urlencode], [request userId]];
   NSLogd(@"%@", url);
 
   /* Prepare the request */

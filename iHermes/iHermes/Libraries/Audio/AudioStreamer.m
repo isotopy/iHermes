@@ -24,6 +24,7 @@
 /* This file has been heavily modified since its original distribution bytes
    Alex Crichton for the Hermes project */
 
+#import "../NSObject+subscripts.h"
 #import "AudioStreamer.h"
 
 #define BitRateEstimationMaxPackets 5000

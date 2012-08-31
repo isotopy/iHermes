@@ -7,11 +7,12 @@
  * which could probably use some polishing...
  */
 
-#import <SBJson/SBJson.h>
+#import "../SBJson/SBJson.h"
 
-#import "Keychain.h"
+#import "../Crypto/KeychainItemWrapper.h"
 #import "Scrobbler.h"
-#import "Pandora/Station.h"
+#import "../../Pandora/Station.h"
+#import "../NSObject+subscripts.h"
 
 #define LASTFM_KEYCHAIN_ITEM @"hermes-lastfm-sk"
 

@@ -11,5 +11,4 @@
 @interface NSString (UUID)
 + (NSString *)stringWithNewUUID;
 - (NSString *)md5sum;
-- (NSString*) urlEncoded;
-@end
+ @end

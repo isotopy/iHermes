@@ -1,6 +1,6 @@
-#import "PreferencesController.h"
+#import "../NSObject+subscripts.h"
 #import "URLConnection.h"
-
+#import "../../Pandora/Preferences.h"
 @implementation URLConnection
 
 static void URLConnectionStreamCallback(CFReadStreamRef aStream,

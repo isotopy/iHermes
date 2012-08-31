@@ -4,7 +4,8 @@
 #import "Station.h"
 #import "Song.h"
 #import "KeychainItemWrapper.h"
-
+#import "../Libraries/NSObject+subscripts.h"
+#import "Preferences.h"
 static char *array_xpath = "/methodResponse/params/param/value/array/data/value";
 
 
@@ -224,8 +225,8 @@ static NSString *hierrs[] = {
   if ([self authenticated]) {
     return [self sendRequest:req];
   }
-  NSString *user = [[NSApp delegate] getCachedUsername];
-  NSString *pass = [[NSApp delegate] getCachedPassword];
+  NSString *user = [self getCachedUsername];
+  NSString *pass = [self getCachedPassword];
   return [self authenticate:user password:pass request:req];
 }
 
@@ -755,8 +756,8 @@ static NSString *hierrs[] = {
     [[KeychainItemWrapper alloc] initWithIdentifier:@"iHermes" accessGroup:nil];
         
     if (username && password){
-        [keychain setObject:username forKey:@"pandoraUsername"];
-        [keychain setObject:password forKey:@"pandoraPassword"];  
+        [keychain setObject:username forKey:(__bridge id)(kSecAttrAccount)];
+        [keychain setObject:password forKey:(__bridge id)(kSecValueData)];
     }
 
 }
@@ -764,14 +765,14 @@ static NSString *hierrs[] = {
 - (NSString*) getCachedUsername {
     KeychainItemWrapper *keychain = 
     [[KeychainItemWrapper alloc] initWithIdentifier:@"iHermes" accessGroup:nil];
-    return [keychain objectForKey:@"pandoraUsername"];    
+    return [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
 }
 
 - (NSString*) getCachedPassword {
    
     KeychainItemWrapper *keychain = 
     [[KeychainItemWrapper alloc] initWithIdentifier:@"iHermes" accessGroup:nil];
-    return [keychain objectForKey:@"pandoraPassword"];    
+    return [keychain objectForKey:(__bridge id)(kSecValueData)];
    }
 
 
