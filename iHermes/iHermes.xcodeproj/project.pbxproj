@@ -14,12 +14,6 @@
 		08276080153F5FB3004CAFA3 /* libiHermes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08276068153F5FB3004CAFA3 /* libiHermes.a */; };
 		08276086153F5FB3004CAFA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08276084153F5FB3004CAFA3 /* InfoPlist.strings */; };
 		08276089153F5FB3004CAFA3 /* iHermesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08276088153F5FB3004CAFA3 /* iHermesTests.m */; };
-		082760B6153F6007004CAFA3 /* FMEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 08276097153F6006004CAFA3 /* FMEngine.h */; };
-		082760B7153F6007004CAFA3 /* FMEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 08276098153F6006004CAFA3 /* FMEngine.m */; };
-		082760B8153F6007004CAFA3 /* FMEngineURLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 08276099153F6006004CAFA3 /* FMEngineURLConnection.h */; };
-		082760B9153F6007004CAFA3 /* FMEngineURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0827609A153F6006004CAFA3 /* FMEngineURLConnection.m */; };
-		082760BA153F6007004CAFA3 /* NSString+FMEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 0827609B153F6006004CAFA3 /* NSString+FMEngine.h */; };
-		082760BB153F6007004CAFA3 /* NSString+FMEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0827609C153F6006004CAFA3 /* NSString+FMEngine.m */; };
 		082760C2153F6007004CAFA3 /* API.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760A4153F6007004CAFA3 /* API.h */; };
 		082760C3153F6007004CAFA3 /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760A5153F6007004CAFA3 /* API.m */; };
 		082760C4153F6007004CAFA3 /* Crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760A6153F6007004CAFA3 /* Crypt.h */; };
@@ -30,38 +24,7 @@
 		082760C9153F6007004CAFA3 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760AB153F6007004CAFA3 /* Song.m */; };
 		082760CA153F6007004CAFA3 /* Station.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760AC153F6007004CAFA3 /* Station.h */; };
 		082760CB153F6007004CAFA3 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760AD153F6007004CAFA3 /* Station.m */; };
-		082760CC153F6007004CAFA3 /* Pandora.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760AE153F6007004CAFA3 /* Pandora.h */; };
-		082760CD153F6007004CAFA3 /* Pandora.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760AF153F6007004CAFA3 /* Pandora.m */; };
 		082760D1153F6161004CAFA3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082760D0153F6161004CAFA3 /* Security.framework */; };
-		082760F1153F6188004CAFA3 /* NSObject+SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760D6153F6188004CAFA3 /* NSObject+SBJson.h */; };
-		082760F2153F6188004CAFA3 /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760D7153F6188004CAFA3 /* NSObject+SBJson.m */; };
-		082760F3153F6188004CAFA3 /* SBJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760D8153F6188004CAFA3 /* SBJson.h */; };
-		082760F4153F6188004CAFA3 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760D9153F6188004CAFA3 /* SBJsonParser.h */; };
-		082760F5153F6188004CAFA3 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760DA153F6188004CAFA3 /* SBJsonParser.m */; };
-		082760F6153F6188004CAFA3 /* SBJsonStreamParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760DB153F6188004CAFA3 /* SBJsonStreamParser.h */; };
-		082760F7153F6188004CAFA3 /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760DC153F6188004CAFA3 /* SBJsonStreamParser.m */; };
-		082760F8153F6188004CAFA3 /* SBJsonStreamParserAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760DD153F6188004CAFA3 /* SBJsonStreamParserAccumulator.h */; };
-		082760F9153F6188004CAFA3 /* SBJsonStreamParserAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760DE153F6188004CAFA3 /* SBJsonStreamParserAccumulator.m */; };
-		082760FA153F6188004CAFA3 /* SBJsonStreamParserAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760DF153F6188004CAFA3 /* SBJsonStreamParserAdapter.h */; };
-		082760FB153F6188004CAFA3 /* SBJsonStreamParserAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760E0153F6188004CAFA3 /* SBJsonStreamParserAdapter.m */; };
-		082760FC153F6188004CAFA3 /* SBJsonStreamParserState.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760E1153F6188004CAFA3 /* SBJsonStreamParserState.h */; };
-		082760FD153F6188004CAFA3 /* SBJsonStreamParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760E2153F6188004CAFA3 /* SBJsonStreamParserState.m */; };
-		082760FE153F6188004CAFA3 /* SBJsonStreamWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760E3153F6188004CAFA3 /* SBJsonStreamWriter.h */; };
-		082760FF153F6188004CAFA3 /* SBJsonStreamWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760E4153F6188004CAFA3 /* SBJsonStreamWriter.m */; };
-		08276100153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760E5153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.h */; };
-		08276101153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760E6153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.m */; };
-		08276102153F6188004CAFA3 /* SBJsonStreamWriterState.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760E7153F6188004CAFA3 /* SBJsonStreamWriterState.h */; };
-		08276103153F6188004CAFA3 /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760E8153F6188004CAFA3 /* SBJsonStreamWriterState.m */; };
-		08276104153F6188004CAFA3 /* SBJsonTokeniser.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760E9153F6188004CAFA3 /* SBJsonTokeniser.h */; };
-		08276105153F6188004CAFA3 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760EA153F6188004CAFA3 /* SBJsonTokeniser.m */; };
-		08276106153F6188004CAFA3 /* SBJsonUTF8Stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760EB153F6188004CAFA3 /* SBJsonUTF8Stream.h */; };
-		08276107153F6188004CAFA3 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760EC153F6188004CAFA3 /* SBJsonUTF8Stream.m */; };
-		08276108153F6188004CAFA3 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 082760ED153F6188004CAFA3 /* SBJsonWriter.h */; };
-		08276109153F6188004CAFA3 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 082760EE153F6188004CAFA3 /* SBJsonWriter.m */; };
-		0827610C153F6BAE004CAFA3 /* KeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 0827610A153F6BAD004CAFA3 /* KeychainItemWrapper.h */; };
-		0827610D153F6BAE004CAFA3 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0827610B153F6BAD004CAFA3 /* KeychainItemWrapper.m */; settings = {COMPILER_FLAGS = " -fno-objc-arc"; }; };
-		08276111153F75F3004CAFA3 /* AudioStreamer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0827610F153F75F3004CAFA3 /* AudioStreamer.h */; };
-		08276112153F75F3004CAFA3 /* AudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = 08276110153F75F3004CAFA3 /* AudioStreamer.m */; settings = {COMPILER_FLAGS = " -fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,12 +48,6 @@
 		08276085153F5FB3004CAFA3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08276087153F5FB3004CAFA3 /* iHermesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iHermesTests.h; sourceTree = "<group>"; };
 		08276088153F5FB3004CAFA3 /* iHermesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iHermesTests.m; sourceTree = "<group>"; };
-		08276097153F6006004CAFA3 /* FMEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMEngine.h; sourceTree = "<group>"; };
-		08276098153F6006004CAFA3 /* FMEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMEngine.m; sourceTree = "<group>"; };
-		08276099153F6006004CAFA3 /* FMEngineURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMEngineURLConnection.h; sourceTree = "<group>"; };
-		0827609A153F6006004CAFA3 /* FMEngineURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMEngineURLConnection.m; sourceTree = "<group>"; };
-		0827609B153F6006004CAFA3 /* NSString+FMEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FMEngine.h"; sourceTree = "<group>"; };
-		0827609C153F6006004CAFA3 /* NSString+FMEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FMEngine.m"; sourceTree = "<group>"; };
 		082760A4153F6007004CAFA3 /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
 		082760A5153F6007004CAFA3 /* API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = API.m; sourceTree = "<group>"; };
 		082760A6153F6007004CAFA3 /* Crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crypt.h; sourceTree = "<group>"; };
@@ -101,38 +58,7 @@
 		082760AB153F6007004CAFA3 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		082760AC153F6007004CAFA3 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
 		082760AD153F6007004CAFA3 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
-		082760AE153F6007004CAFA3 /* Pandora.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pandora.h; sourceTree = "<group>"; };
-		082760AF153F6007004CAFA3 /* Pandora.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pandora.m; sourceTree = "<group>"; };
 		082760D0153F6161004CAFA3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		082760D6153F6188004CAFA3 /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
-		082760D7153F6188004CAFA3 /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
-		082760D8153F6188004CAFA3 /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
-		082760D9153F6188004CAFA3 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		082760DA153F6188004CAFA3 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		082760DB153F6188004CAFA3 /* SBJsonStreamParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParser.h; sourceTree = "<group>"; };
-		082760DC153F6188004CAFA3 /* SBJsonStreamParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParser.m; sourceTree = "<group>"; };
-		082760DD153F6188004CAFA3 /* SBJsonStreamParserAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAccumulator.h; sourceTree = "<group>"; };
-		082760DE153F6188004CAFA3 /* SBJsonStreamParserAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAccumulator.m; sourceTree = "<group>"; };
-		082760DF153F6188004CAFA3 /* SBJsonStreamParserAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserAdapter.h; sourceTree = "<group>"; };
-		082760E0153F6188004CAFA3 /* SBJsonStreamParserAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserAdapter.m; sourceTree = "<group>"; };
-		082760E1153F6188004CAFA3 /* SBJsonStreamParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamParserState.h; sourceTree = "<group>"; };
-		082760E2153F6188004CAFA3 /* SBJsonStreamParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamParserState.m; sourceTree = "<group>"; };
-		082760E3153F6188004CAFA3 /* SBJsonStreamWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriter.h; sourceTree = "<group>"; };
-		082760E4153F6188004CAFA3 /* SBJsonStreamWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriter.m; sourceTree = "<group>"; };
-		082760E5153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterAccumulator.h; sourceTree = "<group>"; };
-		082760E6153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterAccumulator.m; sourceTree = "<group>"; };
-		082760E7153F6188004CAFA3 /* SBJsonStreamWriterState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonStreamWriterState.h; sourceTree = "<group>"; };
-		082760E8153F6188004CAFA3 /* SBJsonStreamWriterState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonStreamWriterState.m; sourceTree = "<group>"; };
-		082760E9153F6188004CAFA3 /* SBJsonTokeniser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonTokeniser.h; sourceTree = "<group>"; };
-		082760EA153F6188004CAFA3 /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
-		082760EB153F6188004CAFA3 /* SBJsonUTF8Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonUTF8Stream.h; sourceTree = "<group>"; };
-		082760EC153F6188004CAFA3 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
-		082760ED153F6188004CAFA3 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		082760EE153F6188004CAFA3 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		0827610A153F6BAD004CAFA3 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
-		0827610B153F6BAD004CAFA3 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
-		0827610F153F75F3004CAFA3 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
-		08276110153F75F3004CAFA3 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,10 +118,7 @@
 		0827606D153F5FB3004CAFA3 /* iHermes */ = {
 			isa = PBXGroup;
 			children = (
-				0827610E153F6E1A004CAFA3 /* Libraries */,
 				082760A3153F6007004CAFA3 /* Pandora */,
-				082760AE153F6007004CAFA3 /* Pandora.h */,
-				082760AF153F6007004CAFA3 /* Pandora.m */,
 				0827606E153F5FB3004CAFA3 /* Supporting Files */,
 			);
 			path = iHermes;
@@ -228,19 +151,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		08276096153F6006004CAFA3 /* FMEngine */ = {
-			isa = PBXGroup;
-			children = (
-				08276097153F6006004CAFA3 /* FMEngine.h */,
-				08276098153F6006004CAFA3 /* FMEngine.m */,
-				08276099153F6006004CAFA3 /* FMEngineURLConnection.h */,
-				0827609A153F6006004CAFA3 /* FMEngineURLConnection.m */,
-				0827609B153F6006004CAFA3 /* NSString+FMEngine.h */,
-				0827609C153F6006004CAFA3 /* NSString+FMEngine.m */,
-			);
-			path = FMEngine;
-			sourceTree = "<group>";
-		};
 		082760A3153F6007004CAFA3 /* Pandora */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,51 +168,6 @@
 			path = Pandora;
 			sourceTree = "<group>";
 		};
-		082760D5153F6188004CAFA3 /* SBJson */ = {
-			isa = PBXGroup;
-			children = (
-				082760D6153F6188004CAFA3 /* NSObject+SBJson.h */,
-				082760D7153F6188004CAFA3 /* NSObject+SBJson.m */,
-				082760D8153F6188004CAFA3 /* SBJson.h */,
-				082760D9153F6188004CAFA3 /* SBJsonParser.h */,
-				082760DA153F6188004CAFA3 /* SBJsonParser.m */,
-				082760DB153F6188004CAFA3 /* SBJsonStreamParser.h */,
-				082760DC153F6188004CAFA3 /* SBJsonStreamParser.m */,
-				082760DD153F6188004CAFA3 /* SBJsonStreamParserAccumulator.h */,
-				082760DE153F6188004CAFA3 /* SBJsonStreamParserAccumulator.m */,
-				082760DF153F6188004CAFA3 /* SBJsonStreamParserAdapter.h */,
-				082760E0153F6188004CAFA3 /* SBJsonStreamParserAdapter.m */,
-				082760E1153F6188004CAFA3 /* SBJsonStreamParserState.h */,
-				082760E2153F6188004CAFA3 /* SBJsonStreamParserState.m */,
-				082760E3153F6188004CAFA3 /* SBJsonStreamWriter.h */,
-				082760E4153F6188004CAFA3 /* SBJsonStreamWriter.m */,
-				082760E5153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.h */,
-				082760E6153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.m */,
-				082760E7153F6188004CAFA3 /* SBJsonStreamWriterState.h */,
-				082760E8153F6188004CAFA3 /* SBJsonStreamWriterState.m */,
-				082760E9153F6188004CAFA3 /* SBJsonTokeniser.h */,
-				082760EA153F6188004CAFA3 /* SBJsonTokeniser.m */,
-				082760EB153F6188004CAFA3 /* SBJsonUTF8Stream.h */,
-				082760EC153F6188004CAFA3 /* SBJsonUTF8Stream.m */,
-				082760ED153F6188004CAFA3 /* SBJsonWriter.h */,
-				082760EE153F6188004CAFA3 /* SBJsonWriter.m */,
-			);
-			path = SBJson;
-			sourceTree = "<group>";
-		};
-		0827610E153F6E1A004CAFA3 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				0827610F153F75F3004CAFA3 /* AudioStreamer.h */,
-				08276110153F75F3004CAFA3 /* AudioStreamer.m */,
-				0827610A153F6BAD004CAFA3 /* KeychainItemWrapper.h */,
-				0827610B153F6BAD004CAFA3 /* KeychainItemWrapper.m */,
-				082760D5153F6188004CAFA3 /* SBJson */,
-				08276096153F6006004CAFA3 /* FMEngine */,
-			);
-			name = Libraries;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -310,30 +175,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				082760B6153F6007004CAFA3 /* FMEngine.h in Headers */,
-				082760B8153F6007004CAFA3 /* FMEngineURLConnection.h in Headers */,
-				082760BA153F6007004CAFA3 /* NSString+FMEngine.h in Headers */,
 				082760C2153F6007004CAFA3 /* API.h in Headers */,
 				082760C4153F6007004CAFA3 /* Crypt.h in Headers */,
 				082760C6153F6007004CAFA3 /* Keys.h in Headers */,
 				082760C8153F6007004CAFA3 /* Song.h in Headers */,
 				082760CA153F6007004CAFA3 /* Station.h in Headers */,
-				082760CC153F6007004CAFA3 /* Pandora.h in Headers */,
-				082760F1153F6188004CAFA3 /* NSObject+SBJson.h in Headers */,
-				082760F3153F6188004CAFA3 /* SBJson.h in Headers */,
-				082760F4153F6188004CAFA3 /* SBJsonParser.h in Headers */,
-				082760F6153F6188004CAFA3 /* SBJsonStreamParser.h in Headers */,
-				082760F8153F6188004CAFA3 /* SBJsonStreamParserAccumulator.h in Headers */,
-				082760FA153F6188004CAFA3 /* SBJsonStreamParserAdapter.h in Headers */,
-				082760FC153F6188004CAFA3 /* SBJsonStreamParserState.h in Headers */,
-				082760FE153F6188004CAFA3 /* SBJsonStreamWriter.h in Headers */,
-				08276100153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.h in Headers */,
-				08276102153F6188004CAFA3 /* SBJsonStreamWriterState.h in Headers */,
-				08276104153F6188004CAFA3 /* SBJsonTokeniser.h in Headers */,
-				08276106153F6188004CAFA3 /* SBJsonUTF8Stream.h in Headers */,
-				08276108153F6188004CAFA3 /* SBJsonWriter.h in Headers */,
-				0827610C153F6BAE004CAFA3 /* KeychainItemWrapper.h in Headers */,
-				08276111153F75F3004CAFA3 /* AudioStreamer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +228,7 @@
 		0827605F153F5FB2004CAFA3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 08276062153F5FB2004CAFA3 /* Build configuration list for PBXProject "iHermes" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -434,29 +280,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				082760B7153F6007004CAFA3 /* FMEngine.m in Sources */,
-				082760B9153F6007004CAFA3 /* FMEngineURLConnection.m in Sources */,
-				082760BB153F6007004CAFA3 /* NSString+FMEngine.m in Sources */,
 				082760C3153F6007004CAFA3 /* API.m in Sources */,
 				082760C5153F6007004CAFA3 /* Crypt.m in Sources */,
 				082760C7153F6007004CAFA3 /* Keys.m in Sources */,
 				082760C9153F6007004CAFA3 /* Song.m in Sources */,
 				082760CB153F6007004CAFA3 /* Station.m in Sources */,
-				082760CD153F6007004CAFA3 /* Pandora.m in Sources */,
-				082760F2153F6188004CAFA3 /* NSObject+SBJson.m in Sources */,
-				082760F5153F6188004CAFA3 /* SBJsonParser.m in Sources */,
-				082760F7153F6188004CAFA3 /* SBJsonStreamParser.m in Sources */,
-				082760F9153F6188004CAFA3 /* SBJsonStreamParserAccumulator.m in Sources */,
-				082760FB153F6188004CAFA3 /* SBJsonStreamParserAdapter.m in Sources */,
-				082760FD153F6188004CAFA3 /* SBJsonStreamParserState.m in Sources */,
-				082760FF153F6188004CAFA3 /* SBJsonStreamWriter.m in Sources */,
-				08276101153F6188004CAFA3 /* SBJsonStreamWriterAccumulator.m in Sources */,
-				08276103153F6188004CAFA3 /* SBJsonStreamWriterState.m in Sources */,
-				08276105153F6188004CAFA3 /* SBJsonTokeniser.m in Sources */,
-				08276107153F6188004CAFA3 /* SBJsonUTF8Stream.m in Sources */,
-				08276109153F6188004CAFA3 /* SBJsonWriter.m in Sources */,
-				0827610D153F6BAE004CAFA3 /* KeychainItemWrapper.m in Sources */,
-				08276112153F75F3004CAFA3 /* AudioStreamer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,7 +333,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -523,7 +351,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -540,6 +368,7 @@
 				DSTROOT = /tmp/iHermes.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iHermes/iHermes-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -553,6 +382,7 @@
 				DSTROOT = /tmp/iHermes.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iHermes/iHermes-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -609,6 +439,7 @@
 				0827608E153F5FB3004CAFA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0827608F153F5FB3004CAFA3 /* Build configuration list for PBXNativeTarget "iHermesTests" */ = {
 			isa = XCConfigurationList;
@@ -617,6 +448,7 @@
 				08276091153F5FB3004CAFA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

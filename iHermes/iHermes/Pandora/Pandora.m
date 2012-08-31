@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #import "Pandora.h"
 #import "Crypt.h"
 #import "Station.h"
@@ -6,14 +6,7 @@
 #import "KeychainItemWrapper.h"
 
 static char *array_xpath = "/methodResponse/params/param/value/array/data/value";
-=======
-#import "HermesAppDelegate.h"
-#import "Pandora.h"
-#import "Pandora/Crypt.h"
-#import "Pandora/Song.h"
-#import "Pandora/Station.h"
-#import "PreferencesController.h"
->>>>>>> upstream/master
+
 
 @implementation SearchResult
 
@@ -192,32 +185,7 @@ static NSString *hierrs[] = {
       [self authenticate:user password:pass request:req];
     }];
   }
-<<<<<<< HEAD
-  NSLog(@"Authenticating...");
-  NSString *xml = [NSString stringWithFormat:
-    @"<?xml version=\"1.0\"?>"
-    "<methodCall>"
-      "<methodName>listener.authenticateListener</methodName>"
-      "<params>"
-        "<param><value><int>%lu</int></value></param>"
-        "<param><value><string>%@</string></value></param>"
-        "<param><value><string>%@</string></value></param>"
-        /* get bigger pictures */
-        "<param><value><string>html5tuner</string></value></param>"
-        "<param><value><string/></value></param>"
-        "<param><value><string/></value></param>"
-        "<param><value><string>HTML5</string></value></param>"
-        "<param><value><boolean>1</boolean></value></param>"
-      "</params>"
-    "</methodCall>",
-      [self time], user, pass
-    ];
 
-  PandoraCallback cb = ^(xmlDocPtr doc) {
-    NSString *oldAuthToken = authToken;
-    [self setAuthToken: xpathRelative(doc, "//member[name='authToken']/value", NULL)];
-    [self setListenerID: xpathRelative(doc, "//member[name='listenerId']/value", NULL)];
-=======
 
   NSMutableDictionary *d = [NSMutableDictionary dictionary];
   d[@"loginType"]        = @"user";
@@ -235,7 +203,6 @@ static NSString *hierrs[] = {
     NSDictionary *result = dict[@"result"];
     user_auth_token = result[@"userAuthToken"];
     user_id = result[@"userId"];
->>>>>>> upstream/master
 
     if (req == nil) {
       [self notify:@"hermes.authenticated" with:nil];

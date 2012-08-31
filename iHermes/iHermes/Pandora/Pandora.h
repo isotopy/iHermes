@@ -40,14 +40,9 @@ typedef void(^SyncCallback)(void);
 
 @property (readonly) NSArray* stations;
 
-<<<<<<< HEAD
-
-- (BOOL) authenticate: (NSString*)user :(NSString*)pass :(PandoraRequest*)req;
-=======
 - (BOOL) authenticate:(NSString*)user
              password:(NSString*)password
               request:(PandoraRequest*)req;
->>>>>>> upstream/master
 - (BOOL) fetchStations;
 - (BOOL) getFragment: (Station*)station;
 - (BOOL) partnerLogin: (SyncCallback) cb;
@@ -63,16 +58,13 @@ typedef void(^SyncCallback)(void);
 - (BOOL) removeSeed: (NSString*)seedId;
 - (BOOL) genreStations;
 - (void) logout;
-<<<<<<< HEAD
 - (void) cacheAuth: (NSString*) username : (NSString*) password;
 - (NSString*) getCachedUsername;
 - (NSString*) getCachedPassword;
-=======
 - (void) logoutNoNotify;
 
 - (void) applySort:(int)sort;
 
 + (NSString*) errorString: (int) code;
 
->>>>>>> upstream/master
 @end

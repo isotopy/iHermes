@@ -1,7 +1,7 @@
 #import "Song.h"
 #import "Station.h"
 #import "Crypt.h"
-
+#import "../NSObject+subscripts.h"
 
 @implementation Song
 
@@ -70,20 +70,17 @@
   }
 }
 
-<<<<<<< HEAD
-=======
-- (NSScriptObjectSpecifier *) objectSpecifier {
+
+/*- (NSScriptObjectSpecifier *) objectSpecifier {
   NSScriptClassDescription *containerClassDesc =
   [NSScriptClassDescription classDescriptionForClass:[Station class]];
 
   return [[NSNameSpecifier alloc]
           initWithContainerClassDescription:containerClassDesc
           containerSpecifier:nil key:@"songs" name:[self title]];
-}
+}*/
 
 - (BOOL) isEqual:(id)object {
   return [token isEqual:[object token]];
 }
-
->>>>>>> upstream/master
 @end

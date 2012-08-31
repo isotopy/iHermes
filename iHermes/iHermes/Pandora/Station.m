@@ -1,14 +1,5 @@
-<<<<<<< HEAD
+#import "../AudioStreamer.h"
 #import "Station.h"
-
-=======
-#import <AudioStreamer/AudioStreamer.h>
-
-#import "HermesAppDelegate.h"
-#import "Pandora/Station.h"
-#import "PreferencesController.h"
-#import "StationsController.h"
->>>>>>> upstream/master
 
 @implementation Station
 
