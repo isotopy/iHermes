@@ -6,8 +6,6 @@
 #import "KeychainItemWrapper.h"
 #import "../Libraries/NSObject+subscripts.h"
 #import "Preferences.h"
-static char *array_xpath = "/methodResponse/params/param/value/array/data/value";
-
 
 @implementation SearchResult
 
