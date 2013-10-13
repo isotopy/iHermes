@@ -749,7 +749,6 @@ static NSString *hierrs[] = {
 }
 
 - (void) cacheAuth: (NSString*) username : (NSString*) password {
-    [[NSUserDefaults standardUserDefaults] setObject:username forKey:@"pandoraUsername"];
     KeychainItemWrapper *keychain = 
     [[KeychainItemWrapper alloc] initWithIdentifier:@"iHermes" accessGroup:nil];
         

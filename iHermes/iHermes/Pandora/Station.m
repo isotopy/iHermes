@@ -212,7 +212,7 @@
        just in case, retry the current song automatically a few times before we
        finally give up and clear our cache of songs (see below) */
     } else {
-      NSLogd(@"Error on playback stream! count:%lu, Retrying...", tries);
+      NSLogd(@"Error on playback stream! count:%lu, Retrying...", (long)tries);
       NSLogd(@"error: %@", [AudioStreamer stringForErrorCode:code]);
       [self retry:YES];
     }
