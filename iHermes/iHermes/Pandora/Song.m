@@ -1,12 +1,23 @@
 #import "Song.h"
 #import "Station.h"
 #import "Crypt.h"
-#import "../Libraries/NSObject+subscripts.h"
 
 @implementation Song
 
 @synthesize artist, title, album, highUrl, stationId, nrating,
-  albumUrl, artistUrl, titleUrl, art, token, medUrl, lowUrl, station;
+  albumUrl, artistUrl, titleUrl, art, token, medUrl, lowUrl;
+
+#pragma mark - NSObject
+
+- (BOOL) isEqual:(id)object {
+  return [token isEqual:[object token]];
+}
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@ %p %@ - %@>", NSStringFromClass(self.class), self, self.artist, self.title];
+}
+
+#pragma mark - NSCoding
 
 - (id) initWithCoder: (NSCoder *)coder {
   if ((self = [super init])) {
@@ -27,23 +38,14 @@
   return self;
 }
 
-/**
- * Decrypts the URL received from Pandora
- */
-+ (NSString*) decryptURL: (NSString*) url {
-  /* Last 16 bytes of the URL are encrypted */
-  char buf[17];
-  int index = [url length] - 48;
-
-  NSString *pref = [url substringToIndex: index];
-  NSData *data = PandoraDecrypt([url substringFromIndex: index]);
-  strncpy(buf, [data bytes], sizeof(buf) - 1);
-  buf[sizeof(buf) - 1] = 0;
-  NSString *suff = @(buf);
-  NSLogd(@"%@", pref);
-
-  return [pref stringByAppendingString:suff];
+- (void) encodeWithCoder: (NSCoder *)coder {
+  NSDictionary *info = [self toDictionary];
+  for(id key in info) {
+    [coder encodeObject:info[key] forKey:key];
+  }
 }
+
+#pragma mark - NSDistributedNotification user info
 
 - (NSDictionary*) toDictionary {
   NSMutableDictionary *info = [NSMutableDictionary dictionary];
@@ -63,24 +65,10 @@
   return info;
 }
 
-- (void) encodeWithCoder: (NSCoder *)coder {
-  NSDictionary *info = [self toDictionary];
-  for(id key in info) {
-    [coder encodeObject:info[key] forKey:key];
-  }
+#pragma mark - Reference to station
+
+- (Station*) station {
+  return [Station stationForToken:[self stationId]];
 }
 
-
-/*- (NSScriptObjectSpecifier *) objectSpecifier {
-  NSScriptClassDescription *containerClassDesc =
-  [NSScriptClassDescription classDescriptionForClass:[Station class]];
-
-  return [[NSNameSpecifier alloc]
-          initWithContainerClassDescription:containerClassDesc
-          containerSpecifier:nil key:@"songs" name:[self title]];
-}*/
-
-- (BOOL) isEqual:(id)object {
-  return [token isEqual:[object token]];
-}
 @end

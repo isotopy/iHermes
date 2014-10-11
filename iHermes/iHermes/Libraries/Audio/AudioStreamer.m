@@ -24,7 +24,6 @@
 /* This file has been heavily modified since its original distribution bytes
    Alex Crichton for the Hermes project */
 
-#import "../NSObject+subscripts.h"
 #import "AudioStreamer.h"
 
 #define BitRateEstimationMaxPackets 5000
@@ -246,15 +245,14 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
 }
 
 - (AudioStreamerDoneReason)doneReason {
+  if (errorCode) {
+    return AS_DONE_ERROR;
+  }
   switch (state_) {
     case AS_STOPPED:
       return AS_DONE_STOPPED;
     case AS_DONE:
-      if (errorCode) {
-        return AS_DONE_ERROR;
-      } else {
-        return AS_DONE_EOF;
-      }
+      return AS_DONE_EOF;
     default:
       break;
   }
@@ -343,6 +341,8 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
   if (bitrate == 0.0 || fileLength <= 0) {
     return NO;
   }
+  assert(!seeking);
+  seeking = YES;
 
   //
   // Calculate the byte offset for seeking
@@ -385,12 +385,15 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
   /* Stop audio for now */
   err = AudioQueueStop(audioQueue, true);
   if (err) {
+    seeking = NO;
     [self failWithErrorCode:AS_AUDIO_QUEUE_STOP_FAILED];
     return NO;
   }
 
   /* Open a new stream with a new offset */
-  return [self openReadStream];
+  BOOL ret = [self openReadStream];
+  seeking = NO;
+  return ret;
 }
 
 - (BOOL) progress:(double*)ret {
@@ -445,7 +448,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
   return YES;
 }
 
-/* Internal Functions ======================================================= */
+#pragma mark - Private
 
 //
 // failWithErrorCode:
@@ -659,7 +662,6 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
   [self setState:AS_WAITING_FOR_DATA];
 
   if (!CFReadStreamOpen(stream)) {
-    CFRelease(stream);
     [self failWithErrorCode:AS_FILE_STREAM_OPEN_FAILED];
     return NO;
   }
@@ -713,9 +715,9 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
         if ([self enqueueBuffer] < 0) return;
       }
 
-      /* If we never received any packets, then we fail */
+      /* If we never received any packets, then we're done now */
       if (state_ == AS_WAITING_FOR_DATA) {
-        [self failWithErrorCode:AS_AUDIO_DATA_NOT_FOUND];
+        [self setState:AS_DONE];
       }
       return;
 
@@ -1221,9 +1223,15 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
   inuse[idx] = false;
   buffersUsed--;
 
+  /* If we're done with buffers because the stream dying, then there's no need
+   * to call more methods on it. */
+  if (state_ == AS_STOPPED) {
+    return;
+  }
+
   /* If there is absolutely no more data which will ever come into the stream,
    * then we're done with the audio */
-  if (buffersUsed == 0 && queued_head == NULL && stream != nil &&
+  else if (buffersUsed == 0 && queued_head == NULL && stream != nil &&
       CFReadStreamGetStatus(stream) == kCFStreamStatusAtEnd) {
     assert(!waitingOnBuffer);
     AudioQueueStop(audioQueue, false);
@@ -1260,7 +1268,7 @@ static void ASReadStreamCallBack(CFReadStreamRef aStream, CFStreamEventType even
     UInt32 output = sizeof(running);
     err = AudioQueueGetProperty(audioQueue, kAudioQueueProperty_IsRunning,
                                 &running, &output);
-    if (!err && !running && seekByteOffset == 0) {
+    if (!err && !running && !seeking) {
       [self setState:AS_DONE];
     }
   }

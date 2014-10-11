@@ -21,6 +21,14 @@
     return newUUID;
 }
 
+- (NSString*) urlEncoded {
+  NSString *encoded = (__bridge_transfer NSString*) CFURLCreateStringByAddingPercentEscapes(NULL,
+    (__bridge CFStringRef) self, NULL,
+    (CFStringRef) @"!*'();:@&=+$,/?%#[]",
+    kCFStringEncodingUTF8 );
+  return encoded;
+}
+
 - (NSString *)md5sum {
   unsigned char digest[CC_MD5_DIGEST_LENGTH], i;
   CC_MD5([self UTF8String], [self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);

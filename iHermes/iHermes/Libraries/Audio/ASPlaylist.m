@@ -7,29 +7,31 @@
 //
 
 #import "ASPlaylist.h"
-#import "../NSObject+subscripts.h"
+
 NSString * const ASCreatedNewStream  = @"ASCreatedNewStream";
 NSString * const ASNewSongPlaying    = @"ASNewSongPlaying";
 NSString * const ASNoSongsLeft       = @"ASNoSongsLeft";
 NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
+NSString * const ASStreamError       = @"ASStreamError";
+NSString * const ASAttemptingNewSong = @"ASAttemptingNewSong";
 
 @implementation ASPlaylist
 
-- (id) init {
+- (id)init {
   if (!(self = [super init])) return nil;
   urls = [NSMutableArray arrayWithCapacity:10];
   return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
   [self stop];
 }
 
-- (void) clearSongList {
+- (void)clearSongList {
   [urls removeAllObjects];
 }
 
-- (void) addSong:(NSURL*)url play:(BOOL)play {
+- (void)addSong:(NSURL *)url play:(BOOL)play {
   [urls addObject:url];
 
   if (play && ![stream isPlaying]) {
@@ -37,7 +39,7 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   }
 }
 
-- (void) setAudioStream {
+- (void)setAudioStream {
   if (stream != nil) {
     [[NSNotificationCenter defaultCenter]
         removeObserver:self
@@ -68,6 +70,10 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
 - (void)bitrateReady: (NSNotification*)notification {
   NSAssert([notification object] == stream,
            @"Should only receive notifications for the current stream");
+  [[NSNotificationCenter defaultCenter]
+        postNotificationName:ASNewSongPlaying
+                      object:self
+                    userInfo:@{@"url": _playing}];
   if (lastKnownSeekTime == 0)
     return;
   if (![stream seekToTime:lastKnownSeekTime])
@@ -84,7 +90,9 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   }
 
   int code = [stream errorCode];
-  if (code != 0) {
+  if (stopping) {
+    return;
+  } else if (code != 0) {
     /* If we've hit an error, then we want to record out current progress into
        the song. Only do this if we're not in the process of retrying to
        establish a connection, so that way we don't blow away the original
@@ -102,25 +110,28 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
        at least hope to regain our current place in the song */
     if (code == AS_NETWORK_CONNECTION_FAILED || code == AS_TIMED_OUT) {
       [[NSNotificationCenter defaultCenter]
-        postNotificationName:@"hermes.stream-error" object:self];
+            postNotificationName:ASStreamError
+                          object:self];
 
     /* Otherwise, this might be because our authentication token is invalid, but
        just in case, retry the current song automatically a few times before we
        finally give up and clear our cache of urls (see below) */
     } else {
-      [self retry];
+      [self performSelector:@selector(retry) withObject:nil afterDelay:0];
     }
 
   /* When the stream has finished, move on to the next song */
   } else if ([stream isDone]) {
-    if (!nexting) [self next];
+    [self performSelectorOnMainThread:@selector(next)
+                           withObject:nil
+                        waitUntilDone:NO];
   }
 }
 
-- (void) retry {
+- (void)retry {
   if (tries > 2) {
     /* too many retries means just skip to the next song */
-    [urls removeAllObjects];
+    [self clearSongList];
     [self next];
     return;
   }
@@ -130,7 +141,7 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   [stream start];
 }
 
-- (void) play {
+- (void)play {
   if (stream) {
     [stream play];
     return;
@@ -147,12 +158,10 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   [urls removeObjectAtIndex:0];
   [self setAudioStream];
   tries = 0;
-  [stream start];
-
   [[NSNotificationCenter defaultCenter]
-        postNotificationName:ASNewSongPlaying
-                      object:self
-                    userInfo:@{@"url": _playing}];
+        postNotificationName:ASAttemptingNewSong
+                      object:self];
+  [stream start];
 
   if ([urls count] < 2) {
     [[NSNotificationCenter defaultCenter]
@@ -161,18 +170,36 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   }
 }
 
-- (void) pause { [stream pause]; }
-- (BOOL) isPaused { return [stream isPaused]; }
-- (BOOL) isPlaying { return [stream isPlaying]; }
-- (BOOL) isIdle { return [stream isDone]; }
-- (BOOL) isError { return [stream errorCode] != AS_NO_ERROR; }
-- (BOOL) progress:(double*)ret { return [stream progress:ret]; }
-- (BOOL) duration:(double*)ret { return [stream duration:ret]; }
+- (void)pause {
+  [stream pause];
+}
 
-- (void) next {
-  if (nexting)
-    return;
+- (BOOL)isPaused {
+  return [stream isPaused];
+}
 
+- (BOOL)isPlaying {
+  return [stream isPlaying];
+}
+
+- (BOOL)isIdle {
+  return [stream isDone];
+}
+
+- (BOOL)isError {
+  return [stream errorCode] != AS_NO_ERROR;
+}
+
+- (BOOL)progress:(double *)ret {
+  return [stream progress:ret];
+}
+
+- (BOOL)duration:(double *)ret {
+  return [stream duration:ret];
+}
+
+- (void)next {
+  assert(!nexting);
   nexting = YES;
   lastKnownSeekTime = 0;
   retrying = FALSE;
@@ -181,8 +208,9 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   nexting = NO;
 }
 
-- (void) stop {
-  nexting = YES;
+- (void)stop {
+  assert(!stopping);
+  stopping = YES;
   [stream stop];
   if (stream != nil) {
     [[NSNotificationCenter defaultCenter]
@@ -192,9 +220,10 @@ NSString * const ASRunningOutOfSongs = @"ASRunningOutOfSongs";
   }
   stream = nil;
   _playing = nil;
+  stopping = NO;
 }
 
-- (void) setVolume:(double)vol {
+- (void)setVolume:(double)vol {
   volumeSet = [stream setVolume:vol];
   self->volume = vol;
 }

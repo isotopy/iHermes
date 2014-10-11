@@ -7,13 +7,13 @@
  */
 
 #include <string.h>
-#import "../Libraries/SBJson/SBJson.h"
-#import "../Libraries/FMEngine/NSString+FMEngine.h"
+#import "SBJson.h"
+#import "NSString+FMEngine.h"
 #import "API.h"
 #import "Crypt.h"
 #import "URLConnection.h"
-#import "../Libraries/NSObject+subscripts.h"
-#import "../Libraries/NSString+urlencode.h"
+#import "NSObject+subscripts.h"
+#import "NSString+urlencode.h"
 @implementation PandoraRequest
 
 @synthesize callback, tls, authToken, userId, partnerId, response,

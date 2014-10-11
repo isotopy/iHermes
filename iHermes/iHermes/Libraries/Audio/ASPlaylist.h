@@ -12,6 +12,8 @@ extern NSString * const ASNewSongPlaying;
 extern NSString * const ASNoSongsLeft;
 extern NSString * const ASRunningOutOfSongs;
 extern NSString * const ASCreatedNewStream;
+extern NSString * const ASStreamError;
+extern NSString * const ASAttemptingNewSong;
 
 /**
  * The ASPlaylist class is intended to be a wrapper around the AudioStreamer
@@ -22,6 +24,7 @@ extern NSString * const ASCreatedNewStream;
 @interface ASPlaylist : NSObject {
   BOOL retrying;              /* Are we retrying the current url? */
   BOOL nexting;               /* Are we in the middle of nexting? */
+  BOOL stopping;              /* Are we in the middle of stopping? */
   BOOL volumeSet;             /* TRUE if the volume has been set on the stream */
   double lastKnownSeekTime;   /* time to seek to */
   double volume;              /* volume for all streams on this playlist */
@@ -75,8 +78,8 @@ extern NSString * const ASCreatedNewStream;
 - (BOOL) isIdle;
 - (BOOL) isError;
 - (void) setVolume:(double)volume;
-- (BOOL) duration:(double*)ret;
-- (BOOL) progress:(double*)ret;
+- (BOOL) duration:(double *)ret;
+- (BOOL) progress:(double *)ret;
 
 /** @name Miscellaneous */
 

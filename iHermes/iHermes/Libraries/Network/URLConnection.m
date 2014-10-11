@@ -1,6 +1,6 @@
-#import "../NSObject+subscripts.h"
+#import "PreferencesController.h"
 #import "URLConnection.h"
-#import "../../Pandora/Preferences.h"
+
 @implementation URLConnection
 
 static void URLConnectionStreamCallback(CFReadStreamRef aStream,
@@ -13,7 +13,7 @@ static void URLConnectionStreamCallback(CFReadStreamRef aStream,
 
   switch (eventType) {
     case kCFStreamEventHasBytesAvailable:
-      while ((len = CFReadStreamRead(aStream, buf, sizeof(buf))) > 0) {
+      if ((len = CFReadStreamRead(aStream, buf, sizeof(buf))) > 0) {
         [conn->bytes appendBytes:buf length:len];
       }
       return;
@@ -132,6 +132,7 @@ static void URLConnectionStreamCallback(CFReadStreamRef aStream,
 
   CFReadStreamClose(stream);
   CFRelease(stream);
+  // FIXME: Most definitely a cause of "Internal Pandora Error".
   NSError *error = [NSError errorWithDomain:@"Connection timeout."
                                        code:0
                                    userInfo:nil];

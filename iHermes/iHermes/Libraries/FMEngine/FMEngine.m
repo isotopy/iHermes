@@ -8,8 +8,7 @@
 
 #import "FMEngine.h"
 #import "URLConnection.h"
-#import "../NSObject+subscripts.h"
-#import "../NSString+urlencode.h"
+
 @implementation FMEngine
 
 static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context) {
@@ -73,7 +72,7 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context) {
 
   for(NSString *key in aMutableArray) {
     NSString *val = [NSString stringWithFormat:@"%@", dict[key]];
-    [rawBody appendString:[NSString stringWithFormat:@"&%@=%@", key, [val urlencode]]];
+    [rawBody appendString:[NSString stringWithFormat:@"&%@=%@", key, [val urlEncoded]]];
   }
 
   NSString *body = [NSString stringWithString:rawBody];
@@ -91,9 +90,9 @@ static NSInteger sortAlpha(NSString *n1, NSString *n2, void *context) {
     NSString *val = [NSString stringWithFormat:@"%@", dict[key]];
 
     if(i == 0) {
-      [rawURL appendString:[NSString stringWithFormat:@"?%@=%@", key, [val urlencode]]];
+      [rawURL appendString:[NSString stringWithFormat:@"?%@=%@", key, [val urlEncoded]]];
     } else {
-      [rawURL appendString:[NSString stringWithFormat:@"&%@=%@", key, [val urlencode]]];
+      [rawURL appendString:[NSString stringWithFormat:@"&%@=%@", key, [val urlEncoded]]];
     }
   }
 

@@ -15,6 +15,11 @@
 		08276086153F5FB3004CAFA3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 08276084153F5FB3004CAFA3 /* InfoPlist.strings */; };
 		08276089153F5FB3004CAFA3 /* iHermesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 08276088153F5FB3004CAFA3 /* iHermesTests.m */; };
 		082760D1153F6161004CAFA3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082760D0153F6161004CAFA3 /* Security.framework */; };
+		0830AD4E19E30E4300A709C8 /* PreferencesController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0830AD4C19E30E4300A709C8 /* PreferencesController.h */; };
+		0830AD5219E31CEE00A709C8 /* Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 0830AD5019E31CEE00A709C8 /* Notifications.h */; };
+		0830AD5319E31CEE00A709C8 /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830AD5119E31CEE00A709C8 /* Notifications.m */; };
+		0830AD5819E3F65E00A709C8 /* PandoraDevice.h in Headers */ = {isa = PBXBuildFile; fileRef = 0830AD5619E3F65E00A709C8 /* PandoraDevice.h */; };
+		0830AD5919E3F65E00A709C8 /* PandoraDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0830AD5719E3F65E00A709C8 /* PandoraDevice.m */; };
 		085D51F115EFED2900752B2A /* ASPlaylist.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D51BD15EFED2900752B2A /* ASPlaylist.h */; };
 		085D51F215EFED2900752B2A /* ASPlaylist.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D51BE15EFED2900752B2A /* ASPlaylist.m */; };
 		085D51F315EFED2900752B2A /* AudioStreamer.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D51BF15EFED2900752B2A /* AudioStreamer.h */; };
@@ -57,8 +62,6 @@
 		085D521C15EFED2900752B2A /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D51EC15EFED2900752B2A /* SBJsonUTF8Stream.m */; };
 		085D521D15EFED2900752B2A /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D51ED15EFED2900752B2A /* SBJsonWriter.h */; };
 		085D521E15EFED2900752B2A /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D51EE15EFED2900752B2A /* SBJsonWriter.m */; };
-		085D522C15EFED4400752B2A /* API.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D522015EFED4400752B2A /* API.h */; };
-		085D522D15EFED4400752B2A /* API.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D522115EFED4400752B2A /* API.m */; };
 		085D522E15EFED4400752B2A /* Crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D522215EFED4400752B2A /* Crypt.h */; };
 		085D522F15EFED4400752B2A /* Crypt.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D522315EFED4400752B2A /* Crypt.m */; };
 		085D523015EFED4400752B2A /* Keys.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D522415EFED4400752B2A /* Keys.h */; };
@@ -69,7 +72,6 @@
 		085D523515EFED4400752B2A /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D522915EFED4400752B2A /* Song.m */; };
 		085D523615EFED4400752B2A /* Station.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D522A15EFED4400752B2A /* Station.h */; };
 		085D523715EFED4400752B2A /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D522B15EFED4400752B2A /* Station.m */; };
-		085D523A15EFF20000752B2A /* Preferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 085D523815EFF20000752B2A /* Preferences.h */; };
 		085D525115F0164A00752B2A /* NSString+urlencode.m in Sources */ = {isa = PBXBuildFile; fileRef = 085D525015F0164A00752B2A /* NSString+urlencode.m */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +97,11 @@
 		08276087153F5FB3004CAFA3 /* iHermesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iHermesTests.h; sourceTree = "<group>"; };
 		08276088153F5FB3004CAFA3 /* iHermesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iHermesTests.m; sourceTree = "<group>"; };
 		082760D0153F6161004CAFA3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0830AD4C19E30E4300A709C8 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		0830AD5019E31CEE00A709C8 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
+		0830AD5119E31CEE00A709C8 /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
+		0830AD5619E3F65E00A709C8 /* PandoraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PandoraDevice.h; sourceTree = "<group>"; };
+		0830AD5719E3F65E00A709C8 /* PandoraDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PandoraDevice.m; sourceTree = "<group>"; };
 		085D51BD15EFED2900752B2A /* ASPlaylist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASPlaylist.h; sourceTree = "<group>"; };
 		085D51BE15EFED2900752B2A /* ASPlaylist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASPlaylist.m; sourceTree = "<group>"; };
 		085D51BF15EFED2900752B2A /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
@@ -137,8 +144,6 @@
 		085D51EC15EFED2900752B2A /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		085D51ED15EFED2900752B2A /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		085D51EE15EFED2900752B2A /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		085D522015EFED4400752B2A /* API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API.h; sourceTree = "<group>"; };
-		085D522115EFED4400752B2A /* API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = API.m; sourceTree = "<group>"; };
 		085D522215EFED4400752B2A /* Crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crypt.h; sourceTree = "<group>"; };
 		085D522315EFED4400752B2A /* Crypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Crypt.m; sourceTree = "<group>"; };
 		085D522415EFED4400752B2A /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
@@ -149,7 +154,6 @@
 		085D522915EFED4400752B2A /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		085D522A15EFED4400752B2A /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
 		085D522B15EFED4400752B2A /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
-		085D523815EFF20000752B2A /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
 		085D524F15F015B200752B2A /* NSString+urlencode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+urlencode.h"; sourceTree = "<group>"; };
 		085D525015F0164A00752B2A /* NSString+urlencode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+urlencode.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -211,6 +215,8 @@
 		0827606D153F5FB3004CAFA3 /* iHermes */ = {
 			isa = PBXGroup;
 			children = (
+				0830AD5019E31CEE00A709C8 /* Notifications.h */,
+				0830AD5119E31CEE00A709C8 /* Notifications.m */,
 				085D521F15EFED4400752B2A /* Pandora */,
 				085D51B915EFED2900752B2A /* Libraries */,
 				0827606E153F5FB3004CAFA3 /* Supporting Files */,
@@ -337,8 +343,9 @@
 		085D521F15EFED4400752B2A /* Pandora */ = {
 			isa = PBXGroup;
 			children = (
-				085D522015EFED4400752B2A /* API.h */,
-				085D522115EFED4400752B2A /* API.m */,
+				0830AD5619E3F65E00A709C8 /* PandoraDevice.h */,
+				0830AD5719E3F65E00A709C8 /* PandoraDevice.m */,
+				0830AD4C19E30E4300A709C8 /* PreferencesController.h */,
 				085D522215EFED4400752B2A /* Crypt.h */,
 				085D522315EFED4400752B2A /* Crypt.m */,
 				085D522415EFED4400752B2A /* Keys.h */,
@@ -349,7 +356,6 @@
 				085D522915EFED4400752B2A /* Song.m */,
 				085D522A15EFED4400752B2A /* Station.h */,
 				085D522B15EFED4400752B2A /* Station.m */,
-				085D523815EFF20000752B2A /* Preferences.h */,
 			);
 			path = Pandora;
 			sourceTree = "<group>";
@@ -372,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				085D51F115EFED2900752B2A /* ASPlaylist.h in Headers */,
+				0830AD5219E31CEE00A709C8 /* Notifications.h in Headers */,
 				085D51F315EFED2900752B2A /* AudioStreamer.h in Headers */,
 				085D51F615EFED2900752B2A /* blowfish.h in Headers */,
 				085D51F715EFED2900752B2A /* KeychainItemWrapper.h in Headers */,
@@ -384,6 +391,7 @@
 				085D520815EFED2900752B2A /* SBJson.h in Headers */,
 				085D520915EFED2900752B2A /* SBJsonParser.h in Headers */,
 				085D520B15EFED2900752B2A /* SBJsonStreamParser.h in Headers */,
+				0830AD4E19E30E4300A709C8 /* PreferencesController.h in Headers */,
 				085D520D15EFED2900752B2A /* SBJsonStreamParserAccumulator.h in Headers */,
 				085D520F15EFED2900752B2A /* SBJsonStreamParserAdapter.h in Headers */,
 				085D521115EFED2900752B2A /* SBJsonStreamParserState.h in Headers */,
@@ -393,13 +401,12 @@
 				085D521915EFED2900752B2A /* SBJsonTokeniser.h in Headers */,
 				085D521B15EFED2900752B2A /* SBJsonUTF8Stream.h in Headers */,
 				085D521D15EFED2900752B2A /* SBJsonWriter.h in Headers */,
-				085D522C15EFED4400752B2A /* API.h in Headers */,
 				085D522E15EFED4400752B2A /* Crypt.h in Headers */,
 				085D523015EFED4400752B2A /* Keys.h in Headers */,
 				085D523215EFED4400752B2A /* Pandora.h in Headers */,
 				085D523415EFED4400752B2A /* Song.h in Headers */,
+				0830AD5819E3F65E00A709C8 /* PandoraDevice.h in Headers */,
 				085D523615EFED4400752B2A /* Station.h in Headers */,
-				085D523A15EFF20000752B2A /* Preferences.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +447,7 @@
 			name = iHermesTests;
 			productName = iHermesTests;
 			productReference = 08276078153F5FB3004CAFA3 /* iHermesTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -508,8 +515,10 @@
 				085D51FE15EFED2900752B2A /* FMEngineURLConnection.m in Sources */,
 				085D520015EFED2900752B2A /* NSString+FMEngine.m in Sources */,
 				085D520415EFED2900752B2A /* URLConnection.m in Sources */,
+				0830AD5319E31CEE00A709C8 /* Notifications.m in Sources */,
 				085D520715EFED2900752B2A /* NSObject+SBJson.m in Sources */,
 				085D520A15EFED2900752B2A /* SBJsonParser.m in Sources */,
+				0830AD5919E3F65E00A709C8 /* PandoraDevice.m in Sources */,
 				085D520C15EFED2900752B2A /* SBJsonStreamParser.m in Sources */,
 				085D520E15EFED2900752B2A /* SBJsonStreamParserAccumulator.m in Sources */,
 				085D521015EFED2900752B2A /* SBJsonStreamParserAdapter.m in Sources */,
@@ -520,7 +529,6 @@
 				085D521A15EFED2900752B2A /* SBJsonTokeniser.m in Sources */,
 				085D521C15EFED2900752B2A /* SBJsonUTF8Stream.m in Sources */,
 				085D521E15EFED2900752B2A /* SBJsonWriter.m in Sources */,
-				085D522D15EFED4400752B2A /* API.m in Sources */,
 				085D522F15EFED4400752B2A /* Crypt.m in Sources */,
 				085D523115EFED4400752B2A /* Keys.m in Sources */,
 				085D523315EFED4400752B2A /* Pandora.m in Sources */,
@@ -607,12 +615,13 @@
 		0827608D153F5FB3004CAFA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/iHermes.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iHermes/iHermes-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2 \"$(SRCROOT)\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos6.1;
@@ -623,12 +632,13 @@
 		0827608E153F5FB3004CAFA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "";
 				DSTROOT = /tmp/iHermes.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iHermes/iHermes-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2";
+				HEADER_SEARCH_PATHS = "$(SDK_DIR)\"/usr/include/libxml2 \"$(SRCROOT)\"/**";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos6.1;
